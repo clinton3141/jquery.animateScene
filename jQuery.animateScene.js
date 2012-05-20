@@ -57,7 +57,7 @@
 
 					return loaded[src];
 				};
-			})(),
+			}()),
 		reveal = function(el) {
 			var animation = el.data("animation");
 			el.addClass("animated");
@@ -85,7 +85,7 @@
 			ANIMATIONS_ENABLED = true;
 		},
 		disable: function () {
-			ANIMATIONS_ENABLED = true;
+			ANIMATIONS_ENABLED = false;
 		},
 		go: function () {
 			return $(this.element).each (function () {
@@ -119,4 +119,6 @@
 			}
 		});
     };
-})(jQuery);
+}(jQuery));
+
+/*jslint browser: true, nomen: true, regexp: true, white: true */
