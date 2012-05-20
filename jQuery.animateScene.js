@@ -1,5 +1,8 @@
 ;(function ($) {
-	var ANIMATIONS_ENABLED = true,
+	"use strict";
+	var pluginName = 'animateScene',
+		defaults = {},
+		ANIMATIONS_ENABLED = true,
 		animations = {
 			// e.g. cloud bouncing in down from the top
 			bounceInDown: function ($el) {
@@ -28,14 +31,11 @@
 					});
 			}
 		},
-		init = function () {
-		},
-		API = {},
 		preload = (function () {
 				var loaded = {},
 					getBackgroundSRC = function (el) {
 						// return the URL of a background image of an element.
-						return el.css("background-image").replace(/^url\("?([^"]*)"?\);?/, "$1");
+						return $(el).css("background-image").replace(/^url\("?([^"]*)"?\);?/, "$1");
 					},
 					load = function (src) {
 						var deferred = $.Deferred();
@@ -69,54 +69,54 @@
 		};
 
 
-	/**
-	 *
-	 */
-	API.enableAnimations = function () {
-		ANIMATIONS_ENABLED = true;
-	};
+	function Scene (element, options) {
+		this.element = element;
 
-	/**
-	 *
-	 */
-	API.disableAnimations = function () {
-		ANIMATIONS_ENABLED = false;
-	};
+		this.options = $.extend({}, defaults, options);
 
-	/**
-	 *
-	 */
-	API.go = function () {
-		return this.each (function () {
-			var $this = $(this);
-				delay = $this.data("delay") || 0;
+		this._defaults = defaults;
+		this._name = pluginName;
 
-			$.when(preload($this)).then(function () {
-				setTimeout (function () {
-					reveal($this);
-				}, (Math.random() * 500 + delay * 1000));
+		this.init();
+	}
 
+	Scene.prototype = {
+		enable: function () {
+			ANIMATIONS_ENABLED = true;
+		},
+		disable: function () {
+			ANIMATIONS_ENABLED = true;
+		},
+		go: function () {
+			return $(this.element).each (function () {
+				var $this = $(this),
+					delay = $this.data("delay") || 0;
+
+				$.when(preload($this)).then(function () {
+					setTimeout (function () {
+						reveal($this);
+					}, (Math.random() * 500 + delay * 1000));
+
+				});
 			});
-		});
-	};
-
-	/**
-	 * get a head start on preloading the assets
-	 */
-	API.init = function () {
-		return this.each (function () {
-			preload(this);
-		});
-	};
-
-	// TODO: THIS IS A MESS! Sort it out!!11!!!!!!1
-	$.fn.animateScene = function(method) {
-		if (API[method]) {
-			return API[method].apply(this, Array.prototype.slice.call(arguments, 1));
-		} else if (typeof method === "object" || !method) {
-			return init.apply(this, arguments);
-		} else {
-			$.error("jQuery.animateScene('" + method + "') doesn't exist");
+		},
+		init: function () {
+			return $(this.element).each (function () {
+				preload(this);
+			});
 		}
 	};
+
+    $.fn[pluginName] = function ( options ) {
+		return this.each(function () {
+			var scene;
+			if (!$.data(this, 'plugin_' + pluginName)) {
+				$.data(this, 'plugin_' + pluginName, new Scene( this, options ));
+			}
+			scene = $.data(this, 'plugin_' + pluginName);
+			if (typeof options === "string" && $.isFunction(scene[options])) {
+				scene[options]();
+			}
+		});
+    };
 })(jQuery);

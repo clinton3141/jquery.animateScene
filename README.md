@@ -21,6 +21,20 @@ Animations and delays are taken from `data-` attributes in the HTML. This is pro
 Kick it all off with jQuery
 
 ```
+// start preloading images (this is optional)
+$(".animatable").animateScene();
+
+// kick off the animation
+$(".animatable").animateScene("go");
+
+// disable animations - elements will simply appear instead
+$(".animatable").animateScene("disable");
+
+// enable animations
+$(".animatable").animateScene("enable");
+
+// re-run animation
+$(".animatable").hide(); // poor-man's rewind
 $(".animatable").animateScene("go");
 ```
 
