@@ -11,31 +11,73 @@ Consider it in pre-alpha and alost certainly broken. The API will change, invoca
 
 ## 3) Usage
 
-Animations and delays are taken from `data-` attributes in the HTML. This is probably a good plan in the CSS (assuming you add the `.js` class to the HTML with something like [Modernizr](http://modernizr.com/))
+Animations and delays are taken from `data-` attributes in the HTML.
+```
+<div id="my-scene">
+	<span id="cloud1" class="cloud animatable" data-animation="bounceInDown" data-delay="1"></span>
+	<span id="cloud2" class="cloud animatable" data-animation="bounceInDown" data-delay="1.5"></span>
+	<span id="cloud3" class="cloud animatable" data-animation="bounceInDown" data-delay="2"></span>
+</div>
+```
+
+Sample CSS
 ```
 .js .animatable {
 	visiblity: hidden;
 }
+
+#my-scene
+{
+	position: relative;
+	width: 600px;
+	height: 400px;
+}
+
+.cloud
+{	
+	width: 100px;
+	height: 50px;
+	background-image: url(cloud.png);
+	position: absolute;
+	display: block;
+	top: 0;
+}
+
+#cloud1
+{
+	left: 50px;
+}
+
+#cloud2
+{
+	left: 200px;
+}
+
+#cloud3
+{
+	left: 450px;
+}
+
 ```
 
 Kick it all off with jQuery
 
 ```
 // start preloading images (this is optional)
-$(".animatable").animateScene();
+$("#my-scene .animatable").animateScene();
 
 // kick off the animation
-$(".animatable").animateScene("go");
+$("#my-scene .animatable").animateScene("go");
 
 // disable animations - elements will simply appear instead
-$(".animatable").animateScene("disable");
+$("#my-scene .animatable").animateScene("disable");
 
 // enable animations
-$(".animatable").animateScene("enable");
+$("#my-scene .animatable").animateScene("enable");
 
 // re-run animation
-$(".animatable").hide(); // poor-man's rewind
-$(".animatable").animateScene("go");
+$("#my-scene .animatable").hide(); // poor-man's rewind
+$("#my-scene .animatable").animateScene("go");
 ```
 
 **PLEASE NOTE**: Please see point number 2! This is likely to change!
