@@ -1,3 +1,4 @@
+;(function ($) {
 	"use strict";
 	var pluginName = 'animateScene',
 		defaults = {
@@ -122,5 +123,5 @@
 			}
 		});
     };
-
+}(jQuery));
 /*jslint browser: true, nomen: true, regexp: true, white: true */
