@@ -9,6 +9,8 @@ jQuery plugin to make animating scenes in HTML super-easy. Think of it as the HT
 
 Consider it in pre-alpha and alost certainly broken. The API will change, invocation may change, hell, even the name might change! Good luck ;)
 
+I am using the [SemVer](http://semver.org/) versioning system though - major.minor.patch - so you should be able to work out what to expect from that :)
+
 ## 3) Usage
 
 Animations and delays are taken from `data-` attributes in the HTML.
