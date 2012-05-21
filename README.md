@@ -117,3 +117,4 @@ I'm working on it.
 * **Change data-delay from seconds to milliseconds**
 * Add randomDelay option 
 * **Animations now auto-play** you can disable this by passing the option `go: false`
+* Removed cruft / general tidy-up of code / comments / that kinda stuff
