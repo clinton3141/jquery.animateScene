@@ -64,20 +64,28 @@ Kick it all off with jQuery
 
 ```
 // start preloading images
-$("#my-scene").animateScene({animatables: ".animatable"});
+$("#my-scene").animateScene(); // using default options
+$("#my-scene-2").animateScene({animatables: ".moving-item"}); // specify animatable item selector
 
-// kick off the animation
+// kick off the animation for one scene
 $("#my-scene").animateScene("go");
+// kick off animation for ALL scenes
+$.animateScene.go();
 
-// disable animations - elements will simply appear instead
+// disable animations for one scene - elements will simply appear instead
 $("#my-scene").animateScene("disable");
+// disable animations for ALL scenes
+$.animateScene.disable();
 
-// enable animations
+// enable animations for one scene
 $("#my-scene").animateScene("enable");
+// enable animations for ALL scenes
+$.animateScene.enable();
 
 // re-run animation
 $("#my-scene .animatable").hide(); // poor-man's rewind
-$("#my-scene").animateScene("go");
+$("#my-scene").animateScene("go"); // just one scene
+$.animateScene.go(); // ALL scenes
 ```
 
 **PLEASE NOTE**: Please see point number 2! This is likely to change!

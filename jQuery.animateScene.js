@@ -60,14 +60,20 @@
 					return loaded[src];
 				};
 			}()),
-		reveal = function(el) {
+		reveal = function(el, animate) {
 			var animation = el.data("animation");
 			el.addClass("animated");
-			if (ANIMATIONS_ENABLED && $.isFunction(animations[animation])) {
+			if (animate && $.isFunction(animations[animation])) {
 				animations[animation](el);
 			} else {
 				el.show();
 			}
+		},
+		scenes = [],
+		eachScene = function (callback) {
+			$.each (scenes, function (index, scene) {
+				callback(scene);
+			});
 		};
 
 
@@ -78,40 +84,53 @@
 
 		this.animatables = $(element).find(this.options.animatables);
 
+		this.enabled = true;
+
 		this._defaults = defaults;
 		this._name = pluginName;
+
+		this.active = false;
 
 		this.init();
 	}
 
 	Scene.prototype = {
+		init: function () {
+			scenes.push(this);
+			return this.animatables.each (function () {
+				preload(this);
+			});
+		},
 		enable: function () {
-			ANIMATIONS_ENABLED = true;
+			this.enabled = true;
 		},
 		disable: function () {
-			ANIMATIONS_ENABLED = false;
+			this.enabled = false;
 		},
 		go: function () {
+			// stops the animations running more than once
+			if (this.active) {
+				return;
+			}
+
+			var animate = this.enabled;
+			this.active = true;
+
 			return this.animatables.each (function () {
 				var $this = $(this),
 					delay = $this.data("delay") || 0;
 
 				$.when(preload($this)).then(function () {
 					setTimeout (function () {
-						reveal($this);
+						reveal($this, animate);
 					}, (Math.random() * 500 + delay * 1000));
 
 				});
 			});
-		},
-		init: function () {
-			return this.animatables.each (function () {
-				preload(this);
-			});
 		}
 	};
 
-    $.fn[pluginName] = function ( options ) {
+    $.fn[pluginName] = function (options) {
 		return this.each(function () {
 			var scene;
 			if (!$.data(this, 'plugin_' + pluginName)) {
@@ -123,5 +142,23 @@
 			}
 		});
     };
+
+	$[pluginName] = {
+		enable: function () {
+			eachScene(function (scene) {
+				scene.disable();
+			});
+		},
+		disable: function () {
+			eachScene(function (scene) {
+				scene.enable();
+			});
+		},
+		go: function () {
+			eachScene(function (scene) {
+				scene.go();
+			});
+		}
+	};
 }(jQuery));
 /*jslint browser: true, nomen: true, regexp: true, white: true */
