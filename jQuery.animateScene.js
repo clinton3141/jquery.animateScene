@@ -81,22 +81,19 @@
 
 		this.element = element;
 
-		this.animatables = $(element).find(this.options.animatables);
-
 		this.enabled = true;
 
 		this._defaults = defaults;
 		this._name = pluginName;
-
-		this.active = false;
 
 		this.init();
 	}
 
 	Scene.prototype = {
 		init: function () {
+			var animatables = $(this.element).find(this.options.animatables);
 			scenes.push(this);
-			return this.animatables.each (function () {
+			return animatables.each (function () {
 				preload(this);
 			});
 		},
@@ -107,17 +104,19 @@
 			this.enabled = false;
 		},
 		go: function () {
-			// stops the animations running more than once
-			if (this.active) {
-				return;
-			}
+			var animatables = $(this.element).find(this.options.animatables),
+				animate = this.enabled;
 
-			var animate = this.enabled;
-			this.active = true;
-
-			return this.animatables.each (function () {
+			return animatables.each (function () {
 				var $this = $(this),
-					delay = $this.data("delay") || 0;
+					delay = $this.data("delay") || 0,
+					active = $this.data("plugin_" + pluginName + "_active");
+
+				// stops the animations running more than once
+				if (active) {
+					return;
+				}
+				$this.data("plugin_" + pluginName + "_active", true);
 
 				$.when(preload($this)).then(function () {
 					setTimeout (function () {
