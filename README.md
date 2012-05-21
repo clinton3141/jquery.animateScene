@@ -63,25 +63,29 @@ Sample CSS
 Kick it all off with jQuery
 
 ```
-// start preloading images (this is optional)
-$("#my-scene .animatable").animateScene();
+// start preloading images
+$("#my-scene").animateScene({animatables: ".animatable"});
 
 // kick off the animation
-$("#my-scene .animatable").animateScene("go");
+$("#my-scene").animateScene("go");
 
 // disable animations - elements will simply appear instead
-$("#my-scene .animatable").animateScene("disable");
+$("#my-scene").animateScene("disable");
 
 // enable animations
-$("#my-scene .animatable").animateScene("enable");
+$("#my-scene").animateScene("enable");
 
 // re-run animation
 $("#my-scene .animatable").hide(); // poor-man's rewind
-$("#my-scene .animatable").animateScene("go");
+$("#my-scene").animateScene("go");
 ```
 
 **PLEASE NOTE**: Please see point number 2! This is likely to change!
 
-## 4) Examples
+## 4) Options
+
+* `animatables`: selector for elements in the scene which are to be animated. Default is `.animatable`
+
+## 5) Examples
 
 I'm working on it.
