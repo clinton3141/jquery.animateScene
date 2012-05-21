@@ -66,6 +66,7 @@ Kick it all off with jQuery
 // start preloading images
 $("#my-scene").animateScene(); // using default options
 $("#my-scene-2").animateScene({animatables: ".moving-item"}); // specify animatable item selector
+$("#my-scene-3").animateScene({randomDelay: 1000}); // add a bit of randomness to the animation sequence
 
 // kick off the animation for one scene
 $("#my-scene").animateScene("go");
@@ -103,6 +104,7 @@ $.animateScene.addAnimation("moveAcrossScreen", function (el) {
 ## 4) Options
 
 * `animatables`: selector for elements in the scene which are to be animated. Default is `.animatable`
+* `randomDelay`: maximum time in milliseconds to delay animation by. It will be a random number between 0 and randomDelay. Default is `0`
 
 ## 5) Examples
 

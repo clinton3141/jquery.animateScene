@@ -1,5 +1,5 @@
 /**
- * jQuery.animateScene.js version 0.1.1
+ * jQuery.animateScene.js version 0.2
  *
  * Copyright (c) 2012 Clinton Montague - http://slightlymore.co.uk/
  *
@@ -26,13 +26,14 @@
 ;(function ($) {
 	"use strict";
 	var pluginName = "animateScene", // uhh, name of the plugin
-		version = "0.1.1", // version number
+		version = "0.2", // version number
 		pluginDataKey = "plugin_" + pluginName + "_" + version, // key for $.data storing the initialised Scene object
 		/**
 		 * Defaults for the plugin - see README for detailed descriptions
 		 */
 		defaults = {
-			animatables: ".animatable" // selector for animatable DOM nodes in the scene
+			animatables: ".animatable", // selector for animatable DOM nodes in the scene
+			randomDelay: 0 // add a bit of randomness to the timings?
 		},
 		/**
 		 * available animations - you can add more with:
@@ -178,6 +179,7 @@
 		 */
 		go: function () {
 			var animatables = $(this.element).find(this.options.animatables), // animatable objects in this scene
+				randomness = this.options.randomDelay, // randomness in animation time for this scene
 				animate = this.enabled; // should this scene animate or not?
 
 			return animatables.each (function () {
@@ -196,7 +198,7 @@
 				$.when(preload($this)).then(function () {
 					setTimeout (function () {
 						reveal($this, animate);
-					}, (Math.random() * 500 + delay * 1000));
+					}, (Math.random() * randomness + delay * 1000));
 				});
 			});
 		}
