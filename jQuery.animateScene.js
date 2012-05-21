@@ -203,7 +203,7 @@
 				$.when(preload($this)).then(function () {
 					setTimeout (function () {
 						reveal($this, animate);
-					}, (Math.random() * randomness + delay * 1000));
+					}, (Math.random() * randomness + delay));
 				});
 			});
 		}
