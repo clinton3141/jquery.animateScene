@@ -4,7 +4,6 @@
 		defaults = {
 			animatables: ".animatable"
 		},
-		ANIMATIONS_ENABLED = true,
 		animations = {
 			// e.g. cloud bouncing in down from the top
 			bounceInDown: function ($el) {
@@ -34,32 +33,32 @@
 			}
 		},
 		preload = (function () {
-				var loaded = {},
-					getBackgroundSRC = function (el) {
-						// return the URL of a background image of an element.
-						return $(el).css("background-image").replace(/^url\("?([^"]*)"?\);?/, "$1");
-					},
-					load = function (src) {
-						var deferred = $.Deferred();
-						$("<img />", {
-							"src": src
-						}).on("load", function () {
-							deferred.resolve();
-						});
-						return deferred.promise();
-					};
-
-
-				return function (el) {
-					var src = getBackgroundSRC(el);
-
-					if (typeof loaded[src] === "undefined") {
-						loaded[src]	= load(src);
-					}
-
-					return loaded[src];
+			var loaded = {},
+				getBackgroundSRC = function (el) {
+					// return the URL of a background image of an element.
+					return $(el).css("background-image").replace(/^url\("?([^"]*)"?\);?/, "$1");
+				},
+				load = function (src) {
+					var deferred = $.Deferred();
+					$("<img />", {
+						"src": src
+					}).on("load", function () {
+						deferred.resolve();
+					});
+					return deferred.promise();
 				};
-			}()),
+
+
+			return function (el) {
+				var src = getBackgroundSRC(el);
+
+				if (typeof loaded[src] === "undefined") {
+					loaded[src]	= load(src);
+				}
+
+				return loaded[src];
+			};
+		}()),
 		reveal = function(el, animate) {
 			var animation = el.data("animation");
 			el.addClass("animated");
