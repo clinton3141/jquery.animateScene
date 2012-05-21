@@ -86,6 +86,16 @@ $.animateScene.enable();
 $("#my-scene .animatable").hide(); // poor-man's rewind
 $("#my-scene").animateScene("go"); // just one scene
 $.animateScene.go(); // ALL scenes
+
+// add new custom animation
+$.animateScene.addAnimation("moveAcrossScreen", function (el) {
+	el.css({left, 0}).animate({
+		left: '100%'
+	}, {
+		duration: 1000,
+		easing: 'linear'
+	});
+});
 ```
 
 **PLEASE NOTE**: Please see point number 2! This is likely to change!

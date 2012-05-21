@@ -157,6 +157,9 @@
 			eachScene(function (scene) {
 				scene.go();
 			});
+		},
+		addAnimation: function (name, fn) {
+			animations[name] = fn;
 		}
 	};
 }(jQuery));
