@@ -33,7 +33,8 @@
 		 */
 		defaults = {
 			animatables: ".animatable", // selector for animatable DOM nodes in the scene
-			randomDelay: 0 // add a bit of randomness to the timings?
+			randomDelay: 0, // add a bit of randomness to the timings?
+			go: true // should the animation autoplay?
 		},
 		/**
 		 * available animations - you can add more with:
@@ -146,6 +147,10 @@
 
 		// let's do this!
 		this.init();
+
+		if (this.options.go) {
+			this.go();
+		}
 	}
 
 	/**

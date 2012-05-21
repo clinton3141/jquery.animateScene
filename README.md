@@ -14,9 +14,9 @@ Consider it in pre-alpha and alost certainly broken. The API will change, invoca
 Animations and delays are taken from `data-` attributes in the HTML.
 ```
 <div id="my-scene">
-	<span id="cloud1" class="cloud animatable" data-animation="bounceInDown" data-delay="1"></span>
-	<span id="cloud2" class="cloud animatable" data-animation="bounceInDown" data-delay="1.5"></span>
-	<span id="cloud3" class="cloud animatable" data-animation="bounceInDown" data-delay="2"></span>
+	<span id="cloud1" class="cloud animatable" data-animation="bounceInDown" data-delay="1000"></span>
+	<span id="cloud2" class="cloud animatable" data-animation="bounceInDown" data-delay="1500"></span>
+	<span id="cloud3" class="cloud animatable" data-animation="bounceInDown" data-delay="2000"></span>
 </div>
 ```
 
@@ -105,7 +105,15 @@ $.animateScene.addAnimation("moveAcrossScreen", function (el) {
 
 * `animatables`: selector for elements in the scene which are to be animated. Default is `.animatable`
 * `randomDelay`: maximum time in milliseconds to delay animation by. It will be a random number between 0 and randomDelay. Default is `0`
+* `go`: should the animation run straight away? Set to false to make the amimation wait for you to `$(selector).animateScene("go")`. Default is `true`
 
 ## 5) Examples
 
 I'm working on it.
+
+
+## 6) Changelog
+### v0.2
+* **Change data-delay from seconds to milliseconds**
+* Add randomDelay option 
+* **Animations now auto-play** you can disable this by passing the option `go: false`
