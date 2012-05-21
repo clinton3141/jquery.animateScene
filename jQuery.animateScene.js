@@ -1,7 +1,8 @@
-;(function ($) {
 	"use strict";
 	var pluginName = 'animateScene',
-		defaults = {},
+		defaults = {
+			animatables: ".animatable"
+		},
 		ANIMATIONS_ENABLED = true,
 		animations = {
 			// e.g. cloud bouncing in down from the top
@@ -70,9 +71,11 @@
 
 
 	function Scene (element, options) {
+		this.options = $.extend({}, defaults, options);
+
 		this.element = element;
 
-		this.options = $.extend({}, defaults, options);
+		this.animatables = $(element).find(this.options.animatables);
 
 		this._defaults = defaults;
 		this._name = pluginName;
@@ -88,7 +91,7 @@
 			ANIMATIONS_ENABLED = false;
 		},
 		go: function () {
-			return $(this.element).each (function () {
+			return this.animatables.each (function () {
 				var $this = $(this),
 					delay = $this.data("delay") || 0;
 
@@ -101,7 +104,7 @@
 			});
 		},
 		init: function () {
-			return $(this.element).each (function () {
+			return this.animatables.each (function () {
 				preload(this);
 			});
 		}
@@ -119,6 +122,5 @@
 			}
 		});
     };
-}(jQuery));
 
 /*jslint browser: true, nomen: true, regexp: true, white: true */
