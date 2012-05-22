@@ -36,6 +36,7 @@
 			randomDelay: 0, // add a bit of randomness to the timings?
 			go: true // should the animation autoplay?
 		},
+
 		/**
 		 * available animations - you can add more with:
 		 *		$.animateScene.addAnimation(name, animationFunction);
@@ -70,6 +71,7 @@
 					});
 			}
 		},
+
 		/**
 		 * Preload an image, returns a jQuery deferred object to indicate when the image has loaded.
 		 *
@@ -90,7 +92,6 @@
 					return deferred.promise();
 				};
 
-
 			// check the cache for the image, if not defined, generate a new one and store it.
 			// return appropriate deferred
 			return function (el) {
@@ -103,6 +104,7 @@
 				return loaded[src];
 			};
 		}()),
+
 		/**
 		 * Reveal a scene object (play the animation). el is a jQuery wrapped element.
 		 * if animate is true, the object will animate, otherwise it'll just appear
@@ -116,15 +118,17 @@
 				el.show();
 			}
 		},
+
 		/**
 		 * Store of all of the scenes created with the plugin
 		 */
 		scenes = [],
+
 		/**
 		 * Run callback one every scene
 		 */
 		eachScene = function (callback) {
-			$.each (scenes, function (index, scene) {
+			$.each(scenes, function (index, scene) {
 				callback(scene);
 			});
 		};
@@ -134,20 +138,12 @@
 	 * A Scene represents each animatable layer.
 	 */
 	function Scene (element, options) {
-		// local store of options
-		this.options = $.extend({}, defaults, options);
-
-		// parent element
-		this.element = element;
-
-		// allow for per-scene control over animations
-		this.enabled = true;
-
-		this._defaults = defaults;
+		this.options = $.extend({}, defaults, options); // local store of options
+		this.element = element; // parent element
+		this.enabled = true; // allow for per-scene control over animations
 
 		// let's do this!
 		this.init();
-
 		if (this.options.go) {
 			this.go();
 		}
@@ -163,22 +159,25 @@
 		init: function () {
 			var animatables = $(this.element).find(this.options.animatables);
 			scenes.push(this);
-			return animatables.each (function () {
+			return animatables.each(function () {
 				preload($(this));
 			});
 		},
+
 		/**
 		 * Enable animations for this scene
 		 */
 		enable: function () {
 			this.enabled = true;
 		},
+
 		/**
 		 * Disable animations for this scene
 		 */
 		disable: function () {
 			this.enabled = false;
 		},
+
 		/**
 		 * Run the animations in this scene
 		 */
@@ -187,7 +186,7 @@
 				randomness = this.options.randomDelay, // randomness in animation time for this scene
 				animate = this.enabled; // should this scene animate or not?
 
-			return animatables.each (function () {
+			return animatables.each(function () {
 				var $this = $(this),
 					delay = $this.data("delay") || 0,
 					active = $this.data(pluginDataKey + "_active"); // has this object already animated? If so, don't run animation again
@@ -201,7 +200,7 @@
 
 				// run animation when it's image has loaded
 				$.when(preload($this)).then(function () {
-					setTimeout (function () {
+					setTimeout(function () {
 						reveal($this, animate);
 					}, (Math.random() * randomness + delay));
 				});
@@ -217,6 +216,7 @@
 		 * Expose version number
 		 */
 		version: version,
+
 		/**
 		 * Enable ALL animations
 		 */
@@ -225,6 +225,7 @@
 				scene.disable();
 			});
 		},
+
 		/**
 		 * Disable ALL animations
 		 */
@@ -233,6 +234,7 @@
 				scene.enable();
 			});
 		},
+
 		/**
 		 * Run ALL scenes
 		 */
@@ -241,6 +243,7 @@
 				scene.go();
 			});
 		},
+
 		/**
 		 * Register a new animation.
 		 *
@@ -271,7 +274,7 @@
 			var scene;
 			// prevent two instantiations of a scene
 			if (!$.data(this, pluginDataKey)) {
-				$.data(this, pluginDataKey, new Scene( this, options ));
+				$.data(this, pluginDataKey, new Scene(this, options));
 			}
 			// grab the scene from $.data
 			scene = $.data(this, pluginDataKey);
